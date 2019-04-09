@@ -11,10 +11,10 @@ const Button = ({ handleClick, text }) => {
 }
 
 const Votes = (props) => {
-    console.log('props.votes: ')
     return (
         <div>
             {props.item}
+            <p>has {props.votes} votes </p>
         </div>
     )
 }
@@ -32,55 +32,33 @@ const App = (props) => {
     const [maxVoted, setMaxVoted] = useState(0)
 
     let currentMax = 0
-    let mostVoted = 0
-    console.log('alussa selected: ', selected)
-    console.log('alussa mostvoted: ', mostVoted)
-
-    console.log('taulukon kopiointi: ', points)
+   
     const anecdotesLength = anecdotes.length - 1;
 
     const handleAnecdoteClick = (props) => {
         const randomNumber = Math.floor((Math.random() * anecdotesLength) + 0);
-        console.log("random number: ", randomNumber)
         const newAnecdote = {
             selected: randomNumber
         }
         setSelected(newAnecdote.selected)
-        console.log("handle click, selected**", newAnecdote.selected)
     }
 
     const handleVoteClick = (props) => {
-        console.log("Vote clicked")
         const copyPoints = [...points]
         copyPoints[selected].upvote_count++
-
-        console.log("voteclick selected value: ", selected)
         setPoints(copyPoints)
-        console.log("Points pistetaulukko: ", points)
-        console.log("Copy pistetaulukko: ", copyPoints)
-
-
-
+        
         for (let i = 0; i < copyPoints.length; i++) {
             if (currentMax === null || currentMax < copyPoints[i].upvote_count) {
-                console.log('for loopissa')
                 currentMax = copyPoints[i].upvote_count
                 const mostVoted = {
                     maxVoted: i
                 }
                 setMaxVoted(mostVoted.maxVoted)
-                console.log('currentMax for loopissa: ', currentMax)
-                console.log('maxVoted for loopissa: ', maxVoted)
             }
         }
-
-        console.log('Maksimi: ', currentMax)
-        console.log('......maxvoted: ', maxVoted)
     }
 
-    console.log("**selected text: ", props.anecdotes[selected])
-    console.log('selected: ', selected)
-    console.log('**maxvoted: ', maxVoted)
     return (
         <div>
             <h1>Anecdote of the day</h1>
@@ -90,7 +68,7 @@ const App = (props) => {
             <Button handleClick={handleVoteClick} text='Vote' />
             <Button handleClick={handleAnecdoteClick} text='Show anecdote' />
             <h1>Anecdote with most votes</h1>
-            <Votes item={props.anecdotes[maxVoted]} value={points[mostVoted]} />
+            <Votes item={props.anecdotes[maxVoted]} votes={points[maxVoted].upvote_count}/>
 
         </div>
     )
@@ -104,7 +82,6 @@ const anecdotes = [
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
-//console.log("Anecdotes pituus: ", anecdotes.length);
 
 ReactDOM.render(
     <App anecdotes={anecdotes} />,

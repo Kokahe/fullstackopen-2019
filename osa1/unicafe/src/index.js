@@ -16,8 +16,6 @@ const Statistic = (props) => {
     )
 }
 const Statistics = (props) => {
-    console.log("*******", props.clicks.good);
-    console.log("*Length: ", props.clicks.all);
 
     if (props.clicks.all === 0) {
         return (
@@ -75,7 +73,6 @@ const App = (props) => {
 
         }
         setClicks(newClicks)
-        console.log("!!!!!!!", newClicks)
     }
 
     const handleNeutralClick = () => {
